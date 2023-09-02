@@ -18,7 +18,7 @@
 ### Regras de negocio 
 
 -[x] Não deve ser possivel cadastrar uma conta com CPF ja existente 
--[] Não deve ser possivel fazer deposito em uma conta não existente 
+-[x] Não deve ser possivel fazer deposito em uma conta não existente 
 -[] Não deve ser possivel buscar extrato em uma conta não existente
 -[] Não deve ser possivel fazer saque em uma conta nãp existente 
 -[] Não deve ser possivel excluir uma conta não existente

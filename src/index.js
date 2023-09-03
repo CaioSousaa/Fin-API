@@ -49,4 +49,21 @@ app.get("/statement", verificationCustomersCPF, (request, response) => {
     return response.json(customer.statement);
 });
 
+app.post("/deposit", verificationCustomersCPF, (request, response) => {
+    const { amount, description } = request.body;
+    
+    const { customer } = request;
+
+    const statementOperation = {
+        description,
+        amount,
+        type : " credit ",
+        created_at : new Date(),
+    }
+
+    customer.statement.push(statementOperation);
+
+    response.status(201).send();
+})
+
 app.listen(3333);

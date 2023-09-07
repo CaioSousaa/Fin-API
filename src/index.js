@@ -99,4 +99,17 @@ app.post("/withdraw", verificationCustomersCPF, (request, response) => {
     return response.status(201).send()
 })
 
+app.get("/statement/date", verificationCustomersCPF, (request, response) => {
+    const { customer } = request;
+
+    const { date } = request.query;
+
+    const formatDate = new Date(date + " 00:00");
+
+    const statement = customer.statement.filter((statement) => statement.created_at.toDateString()
+    === new Date(formatDate).toDateString());
+
+    return response.json(statement);
+});
+
 app.listen(3333);

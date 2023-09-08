@@ -30,13 +30,13 @@ function getBalance(statement){
         } else {
            return acc - operation.amount;
         }
-    }, 0)
+    }, 0);
 
     return balance;
 }
 
 app.post("/account", (request, response) => {
-    const { cpf, nome } = request.body;
+    const { cpf, name } = request.body;
     
     const customersAlreadyExist = customers.some(
         (customer) => customer.cpf === cpf
@@ -48,7 +48,7 @@ app.post("/account", (request, response) => {
 
     customers.push({
         cpf,
-        nome,
+        name,
         id: uuidv4(),
         statement: []
     })
@@ -111,5 +111,36 @@ app.get("/statement/date", verificationCustomersCPF, (request, response) => {
 
     return response.json(statement);
 });
+
+app.put("/account", verificationCustomersCPF, (request, response) => {
+    const { name } = request.body;
+    const { customer } = request;
+
+    customer.name = name;
+
+    return response.status(201).send();
+});
+
+app.get("/account", verificationCustomersCPF, (request, response) => {
+    const { customer } = request;
+
+    return response.json(customer);
+});
+
+app.delete("/account", verificationCustomersCPF, (request, response) => {
+    const {customer} = request;
+
+    customers.splice(customer, 1);
+
+    return response.status(200).json(customer);
+})
+
+app.get("/balance", verificationCustomersCPF, (request, response) => {
+    const {customer} = request;
+
+    const balance = getBalance(customer.statement);
+
+    return response.json(balance);
+})
 
 app.listen(3333);
